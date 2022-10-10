@@ -56,7 +56,38 @@ button {
 
 /*regions sample*/
 .regions-sample {
+    margin-left: 52px;
+    cursor: pointer;
+}
 
+.regions > * {
+    margin-top: 12px;
 }
 
 /*more info*/
+.title {
+    color: #fff;
+}
+
+.info-value {
+    color: #ffffff;
+    margin-right: 50px;
+    margin-top: 16px;
+}
+
+.more-info {
+    margin-left: 52px;
+}
+
+.more-det {
+    display: flex;
+    justify-content: space-between;
+}
+
+/*adds on*/
+.bottom-line {
+    border-bottom: 1px solid #dcd8d8;
+    width: 80%;
+    margin: auto;
+    margin-top: 12px;
+}

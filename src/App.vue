@@ -1,27 +1,39 @@
 <script>
-import {mapState} from "vuex";
+import {useStore} from "vuex";
 import "./assets/css/app.css";
 
 export default {
   data() {
     return {
       text: "",
-      details: [
-        {id: 1, name: "cloudy", val: "12%"}
-      ]
     }
   },
-  computed: mapState([
-    'regions'
-  ]),
+  methods: {
+    showing: function () {
+      console.log(this.text)
+    }
+  },
   setup() {
+    const store = useStore();
+    const {state} = store;
+    store.commit("getLat", "London")
+    console.log(state.weather)
+    return {state}
   },
 }
 </script>
 
 <template>
   <main class="main">
-    <article class="left"></article>
+    <article class="left">
+      <img v-if="state.weather!=null"
+           src="" alt="weather image">
+      <div v-if="state.weather!=null">
+        <p class="temp">{{ ~~(state.weather.main.temp - 273.15) }} &deg;</p>
+        <p class="city">{{ state.weather.name }}</p>
+        <p class="typeof">{{ state.weather.weather[0].description }}</p>
+      </div>
+    </article>
 
     <article class="right">
       <div class="header-search">
@@ -33,20 +45,37 @@ export default {
                      src="./assets/img/search_icon.png" alt=""></button>
       </div>
 
-      <div class="bottom-line"></div>
-
       <div class="regions"
-           v-for="(region, index) in regions.splice(1,4)"
+           v-for="(region, index) in state.regions"
+           @click="showing"
            v-bind:key="index">
         <p class="regions-sample"
-            onclick="text = region">{{ region }}</p>
+        >{{ region }}</p>
       </div>
 
-      <div class="more-info">
+      <div class="bottom-line"></div>
+
+      <div class="more-info" v-if="state.weather!=null">
         <p class="title">Weather Details</p>
-        <div v-for="(det, index) in details" v-bind:key="index">
-          <p>{{ det.name }}</p>
-          <p>{{ det.val }}</p>
+
+        <div class="more-det">
+          <p>Cloudy</p>
+          <p class="info-value">{{ state.weather.clouds.all }}%</p>
+        </div>
+
+        <div class="more-det">
+          <p>Humidity</p>
+          <p class="info-value">{{ state.weather.main.humidity }}%</p>
+        </div>
+
+        <div class="more-det">
+          <p>Wind</p>
+          <p class="info-value">{{ state.weather.wind.speed }}km/h</p>
+        </div>
+
+        <div class="more-det">
+          <p>Rain</p>
+          <p class="info-value">{{ state.weather.cod }}mm</p>
         </div>
       </div>
 

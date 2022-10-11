@@ -9,15 +9,18 @@ export default {
     }
   },
   methods: {
-    showing: function () {
+    showing: function (region) {
+      this.$store.commit("getLat", region)
+    },
+    search: function () {
       console.log(this.text)
+      this.$store.commit("getLat", this.text)
     }
   },
   setup() {
     const store = useStore();
     const {state} = store;
-    store.commit("getLat", "London")
-    console.log(state.weather)
+    store.commit("getLat", "Tashkent")
     return {state}
   },
 }
@@ -26,12 +29,27 @@ export default {
 <template>
   <main class="main">
     <article class="left">
-      <img v-if="state.weather!=null"
-           src="" alt="weather image">
-      <div v-if="state.weather!=null">
+      <div v-if="state.weather!=null"
+           class="left-wrapper">
         <p class="temp">{{ ~~(state.weather.main.temp - 273.15) }} &deg;</p>
         <p class="city">{{ state.weather.name }}</p>
-        <p class="typeof">{{ state.weather.weather[0].description }}</p>
+
+        <div class="icon-wrapper">
+          <img v-if="state.weather.weather[0].description.includes('clear')"
+               class="left-icon"
+               src="./assets/icons/sun-solid.svg"
+               alt="weather image">
+          <img v-if="state.weather.weather[0].description.includes('clouds')
+                || state.weather.weather[0].description.includes('smoke')"
+               class="left-icon"
+               src="./assets/icons/cloud-solid.svg"
+               alt="weather image">
+          <img v-if="state.weather.weather[0].description.includes('rain')"
+               class="left-icon"
+               src="./assets/icons/cloud-rain-solid.svg"
+               alt="weather image">
+          <p class="typeof">{{ state.weather.weather[0].description }}</p>
+        </div>
       </div>
     </article>
 
@@ -40,16 +58,17 @@ export default {
         <input type="text"
                class="search-input"
                placeholder="Another location"
+               @keyup.enter="search"
                v-model="text"/>
-        <button><img class="search-icon"
-                     src="./assets/img/search_icon.png" alt=""></button>
+        <button @click="search"><img class="search-icon"
+                                     src="./assets/img/search_icon.png" alt=""></button>
       </div>
 
       <div class="regions"
            v-for="(region, index) in state.regions"
-           @click="showing"
            v-bind:key="index">
         <p class="regions-sample"
+           @click="showing(region)"
         >{{ region }}</p>
       </div>
 

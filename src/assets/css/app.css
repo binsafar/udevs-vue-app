@@ -3,7 +3,7 @@
     background-repeat: no-repeat;
     width: 85%;
     margin: 40px auto;
-    height: 85vh;
+    height: 86.5vh;
     display: flex;
 }
 
@@ -123,4 +123,37 @@ button {
     border-bottom: 1px solid #dcd8d8;
     width: 80%;
     margin: 12px auto auto;
+}
+
+@media (max-width: 950px) {
+    .main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left {
+        min-width: 482px;
+    }
+
+    .right {
+        width: 100%;
+    }
+}
+
+@media (max-width: 565px) {
+    .temp {
+        font-size: 70px;
+    }
+
+    .city {
+        font-size: 24px;
+    }
+
+    .left div {
+        display: flex;
+        flex-direction: column;
+    }
+    .main{
+        height: 90.6vh;
+    }
 }

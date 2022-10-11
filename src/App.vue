@@ -33,7 +33,6 @@ export default {
            class="left-wrapper">
         <p class="temp">{{ ~~(state.weather.main.temp - 273.15) }} &deg;</p>
         <p class="city">{{ state.weather.name }}</p>
-
         <div class="icon-wrapper">
           <img v-if="state.weather.weather[0].description.includes('clear')"
                class="left-icon"
